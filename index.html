@@ -55,13 +55,43 @@
             background: #81c784;
             border-radius: 0 100% 0 100%;
             opacity: 0.6;
-            animation: fall linear infinite;
+            animation: fall linear forwards;
+            pointer-events: none;
+            z-index: 1;
         }
         @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+            0% { 
+                transform: translateY(-10vh) translateX(0) rotate(0deg); 
+                opacity: 0; 
+            }
+            10% { 
+                opacity: 0.6; 
+            }
+            90% { 
+                opacity: 0.6; 
+            }
+            100% { 
+                transform: translateY(110vh) translateX(50px) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+        
+        /* Mobile adjustments */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem;
+                letter-spacing: 0.2rem;
+            }
+            .container {
+                padding: 1.5rem;
+                width: 85%;
+            }
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            .poem {
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -73,7 +103,7 @@
             仲春初四日，春色正中分。<br>
             绿野徘徊月，晴天断续云。
         </div>
-        <p>昼夜平分，万物复苏。愿你在这个春天，满怀希望，向阳生长。</p>
+        <p>昼夜平分，万物复苏。<br>愿你在这个春天，满怀希望，向阳生长。</p>
     </div>
 
     <script>
@@ -81,12 +111,22 @@
             const leaf = document.createElement('div');
             leaf.className = 'leaf';
             leaf.style.left = Math.random() * 100 + 'vw';
-            leaf.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            leaf.style.opacity = Math.random();
+            leaf.style.top = '-20px';
+            
+            const duration = Math.random() * 4 + 4;
+            leaf.style.animationDuration = duration + 's';
+            
+            const size = Math.random() * 10 + 10;
+            leaf.style.width = size + 'px';
+            leaf.style.height = size + 'px';
+            
             document.body.appendChild(leaf);
-            setTimeout(() => { leaf.remove(); }, 5000);
+            
+            setTimeout(() => { 
+                leaf.remove(); 
+            }, duration * 1000);
         }
-        setInterval(createLeaf, 300);
+        setInterval(createLeaf, 200);
     </script>
 </body>
 </html>
