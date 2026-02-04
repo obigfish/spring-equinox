@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>春分 · 万物生长</title>
+    <style>
+        :root {
+            --spring-green: #a8e6cf;
+            --soft-yellow: #fdffab;
+            --text-color: #2d5a27;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--spring-green) 0%, #dcedc1 100%);
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            color: var(--text-color);
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            max-width: 80%;
+        }
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5rem;
+        }
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+        .poem {
+            font-style: italic;
+            line-height: 2;
+            margin-bottom: 2rem;
+        }
+        .leaf {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #81c784;
+            border-radius: 0 100% 0 100%;
+            opacity: 0.6;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>春分</h1>
+        <div class="subtitle">Spring Equinox</div>
+        <div class="poem">
+            仲春初四日，春色正中分。<br>
+            绿野徘徊月，晴天断续云。
+        </div>
+        <p>昼夜平分，万物复苏。愿你在这个春天，满怀希望，向阳生长。</p>
+    </div>
+
+    <script>
+        function createLeaf() {
+            const leaf = document.createElement('div');
+            leaf.className = 'leaf';
+            leaf.style.left = Math.random() * 100 + 'vw';
+            leaf.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            leaf.style.opacity = Math.random();
+            document.body.appendChild(leaf);
+            setTimeout(() => { leaf.remove(); }, 5000);
+        }
+        setInterval(createLeaf, 300);
+    </script>
+</body>
+</html>
