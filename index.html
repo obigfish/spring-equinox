@@ -9,6 +9,7 @@
             --spring-green: #a8e6cf;
             --soft-yellow: #fdffab;
             --text-color: #2d5a27;
+            --accent-red: #ff8b94;
         }
         body {
             margin: 0;
@@ -31,6 +32,7 @@
             backdrop-filter: blur(10px);
             z-index: 10;
             max-width: 80%;
+            position: relative;
         }
         h1 {
             font-size: 4rem;
@@ -60,42 +62,54 @@
             z-index: 1;
         }
         @keyframes fall {
-            0% { 
-                transform: translateY(-10vh) translateX(0) rotate(0deg); 
-                opacity: 0; 
-            }
-            10% { 
-                opacity: 0.6; 
-            }
-            90% { 
-                opacity: 0.6; 
-            }
-            100% { 
-                transform: translateY(110vh) translateX(50px) rotate(360deg); 
-                opacity: 0; 
-            }
+            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(110vh) translateX(50px) rotate(360deg); opacity: 0; }
         }
         
+        /* Music Toggle Button */
+        #music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--spring-green);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        #music-control.playing {
+            animation: rotate 3s linear infinite;
+            background: var(--soft-yellow);
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         /* Mobile adjustments */
         @media (max-width: 600px) {
-            h1 {
-                font-size: 2.5rem;
-                letter-spacing: 0.2rem;
-            }
-            .container {
-                padding: 1.5rem;
-                width: 85%;
-            }
-            .subtitle {
-                font-size: 1.2rem;
-            }
-            .poem {
-                font-size: 0.9rem;
-            }
+            h1 { font-size: 2.5rem; letter-spacing: 0.2rem; }
+            .container { padding: 1.5rem; width: 85%; }
+            .subtitle { font-size: 1.2rem; }
+            .poem { font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
+    <div id="music-control" onclick="toggleMusic()">🎵</div>
+    <audio id="bgm" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="container">
         <h1>春分</h1>
         <div class="subtitle">Spring Equinox</div>
@@ -104,6 +118,7 @@
             绿野徘徊月，晴天断续云。
         </div>
         <p>昼夜平分，万物复苏。<br>愿你在这个春天，满怀希望，向阳生长。</p>
+        <p style="color: var(--accent-red); font-weight: bold; margin-top: 1rem;">🧨 预祝新春快乐，万事大吉！ 🧨</p>
     </div>
 
     <script>
@@ -112,21 +127,37 @@
             leaf.className = 'leaf';
             leaf.style.left = Math.random() * 100 + 'vw';
             leaf.style.top = '-20px';
-            
             const duration = Math.random() * 4 + 4;
             leaf.style.animationDuration = duration + 's';
-            
             const size = Math.random() * 10 + 10;
             leaf.style.width = size + 'px';
             leaf.style.height = size + 'px';
-            
             document.body.appendChild(leaf);
-            
-            setTimeout(() => { 
-                leaf.remove(); 
-            }, duration * 1000);
+            setTimeout(() => { leaf.remove(); }, duration * 1000);
         }
         setInterval(createLeaf, 200);
+
+        const bgm = document.getElementById('bgm');
+        const control = document.getElementById('music-control');
+        
+        function toggleMusic() {
+            if (bgm.paused) {
+                bgm.play();
+                control.classList.add('playing');
+                control.innerText = '📻';
+            } else {
+                bgm.pause();
+                control.classList.remove('playing');
+                control.innerText = '🎵';
+            }
+        }
+
+        // Auto-play attempt (often blocked by browsers until first interaction)
+        window.addEventListener('click', () => {
+            if (bgm.paused && !control.classList.contains('manually-paused')) {
+                // toggleMusic(); // Uncomment if you want first click anywhere to start music
+            }
+        }, { once: true });
     </script>
 </body>
 </html>
